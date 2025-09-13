@@ -1,8 +1,19 @@
 name: Polaris Security Scan
 on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      - stage
+      - release
   pull_request:
     branches:
-      - branch1
+      - main
+      - master
+      - develop
+      - stage
+      - release
   workflow_dispatch: {}
 jobs:
   polaris:
