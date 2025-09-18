@@ -2,16 +2,29 @@ version: "3.7"
 
 services:
   web:
-    build: .
+    image: node:14
     environment:
-      NODE_ENV:
-      MONGODB_URI: mongodb://mongo:27017/nodegoat
-    command: sh -c "until nc -z -w 2 mongo 27017 && echo 'mongo is ready for connections' && node artifacts/db-reset.js && npm start; do sleep 2; done"
+      NODE_ENV: production
+      SECRET_KEY: "hardcoded-secret-key" # Hardcoded sensitive data
+      DB_PASSWORD: "password123" # Hardcoded sensitive data
     ports:
-      - "4000:4000"
+      - "80:3000" # Exposing HTTP port publicly
+    volumes:
+      - .:/app
+    command: ["node", "server.js"]
+    user: root # Running as root (vulnerability)
 
-  mongo:
-    image: mongo:4.4
-    user: mongodb
-    expose:
-      - 27017
+  database:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword" # Hardcoded sensitive data
+      MYSQL_DATABASE: "testdb"
+    ports:
+      - "3306:3306" # Exposing database port publicly
+    volumes:
+      - db_data:/var/lib/mysql
+    user: root # Running as root (vulnerability)
+
+volumes:
+  db_data:
+
