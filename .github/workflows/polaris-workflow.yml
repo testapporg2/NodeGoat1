@@ -33,3 +33,7 @@ jobs:
           polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
           ### ASSESSMENT TYPES
           polaris_assessment_types: SAST,SCA  # Comma-separated list: SAST,SCA,DAST
+          ### GITHUB TOKEN
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Required when PR comments or sarif reports enabled
+          ### SARIF report parameters
+          polaris_reports_sarif_create: true  # Create SARIF report and upload it as artifact
